@@ -10,7 +10,7 @@
  *  in which variables a, b, and c are identified
  *      - Take the index of "+" or "-" symbol and the
  *      next index(es) until it is not a number
- *  - indexOf, lasIndexOf methods
+ *  - indexOf, lastIndexOf methods
  *      - indexOf to get the B value
  *      - lastIndexOf to get the C value
  *
