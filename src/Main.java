@@ -15,6 +15,7 @@
  *      - lastIndexOf to get the C value
  *
  *  //d escape character - take note
+ *
  */
 // import java.util.Scanner;
 
@@ -25,32 +26,49 @@ public class Main {
         //remove spaces for future computations
         //String equation = sInitial.replaceAll("\\s", "");
         //System.out.println(getabc(equation));
-        System.out.println(getabc("6x^2+2x+4"));
+        getA("6x^2+5x+4");
+        getB("6x^2+5x+4");
+        getC("6x^2+5x+4");
     }
 
-    static int getabc(String k)
+    static void getA(String s)
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
         int a = 0;
-        int b = 0;
-        int c = 0;
-        String s = k.toLowerCase();
         for (int i = 0; i < s.length()-1; i++)
         {
-            char temp = s.charAt(i);
-            switch (temp)
-            {
-                case 'x':
-                    a = Integer.parseInt(s.substring(0, i));
-                break;
-
-                case '+', '-':
-                    b = Integer.parseInt(s.substring(i, i+1));
-                default: continue;
-            }
-            return b;
+           if (s.charAt(i) == 'x')
+           {
+               a = Integer.parseInt(s.substring(0, i));
+           }
         }
-        return b;
+        System.out.println(a);
+    }
+
+    static void getB(String s)
+    {
+        int b = 0;
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (s.charAt(i) == '+' || s.charAt(i) == '-')
+            {
+                b = Integer.parseInt(s.substring(i, (s.lastIndexOf('x'))));
+            }
+        }
+        System.out.println(b);
+    }
+
+    static void getC(String s)
+    {
+        int c = 0;
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (s.charAt(i) == '+' || s.charAt(i) == '-')
+            {
+                c = Integer.parseInt(s.substring(s.lastIndexOf('x')+1, s.length()-1));
+            }
+        }
+        System.out.println(c);
     }
 }
