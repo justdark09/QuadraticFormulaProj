@@ -6,8 +6,17 @@
  *
  *
  * todo:
+ *  - Create a way to split the equation correctly,
+ *  in which variables a, b, and c are identified
+ *      - Take the index of "+" or "-" symbol and the
+ *      next index(es) until it is not a number
+ *  - indexOf, lasIndexOf methods
+ *      - indexOf to get the B value
+ *      - lastIndexOf to get the C value
+ *
+ *  //d escape character - take note
  */
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,14 +25,16 @@ public class Main {
         //remove spaces for future computations
         //String equation = sInitial.replaceAll("\\s", "");
         //System.out.println(getabc(equation));
-        System.out.println(getabc("556x^2+2x+4"));
+        System.out.println(getabc("6x^2+2x+4"));
     }
 
     static int getabc(String k)
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
-        int a=0;
+        int a = 0;
+        int b = 0;
+        int c = 0;
         String s = k.toLowerCase();
         for (int i = 0; i < s.length()-1; i++)
         {
@@ -34,12 +45,12 @@ public class Main {
                     a = Integer.parseInt(s.substring(0, i));
                 break;
 
-
+                case '+', '-':
+                    b = Integer.parseInt(s.substring(i, i+1));
                 default: continue;
             }
-            return a;
+            return b;
         }
-        return a;
-
+        return b;
     }
 }
