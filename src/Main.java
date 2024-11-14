@@ -6,29 +6,29 @@
  *
  *
  * todo:
- *  - Create a way to split the equation correctly,
- *  in which variables a, b, and c are identified
- *      - Take the index of "+" or "-" symbol and the
- *      next index(es) until it is not a number
- *  - indexOf, lastIndexOf methods
- *      - indexOf to get the B value
- *      - lastIndexOf to get the C value
+ *  - split string to chekc if there are two "x" varibles
  *
  *  //d escape character - take note
  *
  */
-// import java.util.Scanner;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //Scanner sc = new Scanner(System.in);
-        //String sInitial = sc.nextLine();
-        //remove spaces for future computations
-        //String equation = sInitial.replaceAll("\\s", "");
-        //System.out.println(getabc(equation));
-        getA("6x^2+5x+4");
-        getB("6x^2+5x+4");
-        getC("6x^2+5x+4");
+        System.out.println("Enter a quadratic equation: ");
+        Scanner sc = new Scanner(System.in);
+        String sInitial = sc.nextLine();
+        // remove spaces for future computations
+        String equation = sInitial.replaceAll("\\s", "");
+        getVariables(equation);
+
+    }
+
+    public static void getVariables(String s)
+    {
+        getA(s);
+        getB(s);
+        getC(s);
     }
 
     static void getA(String s)
@@ -36,27 +36,27 @@ public class Main {
         //sample equation: 6x^2+2x+4
         //                 012345678
         int a = 0;
-        for (int i = 0; i < s.length()-1; i++)
+        for (int i = 0; i < s.length(); i++)
         {
            if (s.charAt(i) == 'x')
            {
-               a = Integer.parseInt(s.substring(0, i));
+               a = Integer.parseInt(s.substring(0, s.indexOf('x')));
            }
         }
-        System.out.println(a);
+        System.out.println("A: " + a);
     }
 
     static void getB(String s)
     {
         int b = 0;
-        for (int i = 0; i < s.length(); i++)
+        for (int i = 0; i < s.lastIndexOf('x'); i++)
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                b = Integer.parseInt(s.substring(i, (s.lastIndexOf('x'))));
+                b = Integer.parseInt(s.substring(i, s.lastIndexOf('x')));
             }
         }
-        System.out.println(b);
+        System.out.println("B: " + b);
     }
 
     static void getC(String s)
@@ -66,9 +66,9 @@ public class Main {
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                c = Integer.parseInt(s.substring(s.lastIndexOf('x')+1, s.length()-1));
+                c = Integer.parseInt(s.substring(s.lastIndexOf('x')+1));
             }
         }
-        System.out.println(c);
+        System.out.println("C: " + c);
     }
 }
