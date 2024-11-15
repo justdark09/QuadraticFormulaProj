@@ -6,7 +6,6 @@
  *
  *
  * todo:
- *  - split string to chekc if there are two "x" varibles
  *
  *  //d escape character - take note
  *
@@ -20,8 +19,48 @@ public class Main {
         String sInitial = sc.nextLine();
         // remove spaces for future computations
         String equation = sInitial.replaceAll("\\s", "");
-        getVariables(equation);
+        equation = equation.toLowerCase();
 
+
+        if (!checkForSymbols(equation))
+        {
+            System.out.println("Please re-run program and enter a valid Quadratic Equation (i.e. 6x^2+4x+2). You entered: " + equation);
+            System.exit(0);
+        }
+        getVariables(equation);
+        sc.close();
+    }
+
+    // checks to make sure if the user-inputted string has all of the symbols in needs (i.e. a '^', two 'x' variables, and two '+' or '-')
+    public static boolean checkForSymbols(String s)
+    {
+        int symCounter = 0;
+        boolean hasSymbols = false;
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (s.charAt(i) == 'x')
+            {
+                symCounter++;
+            }
+
+            if (s.charAt(i) == '^')
+            {
+                symCounter++;
+            }
+
+            if (s.charAt(i) == '+' || s.charAt(i) == '-')
+            {
+                symCounter++;
+            }
+        }
+
+        if (symCounter == 5)
+        {
+            hasSymbols = true;
+        }
+
+        return hasSymbols;
     }
 
     public static void getVariables(String s)
@@ -35,25 +74,25 @@ public class Main {
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
-        int a = 0;
+        double a = 0;
         for (int i = 0; i < s.length(); i++)
         {
-           if (s.charAt(i) == 'x')
-           {
-               a = Integer.parseInt(s.substring(0, s.indexOf('x')));
-           }
+            if (s.charAt(i) == 'x')
+            {
+                a = Double.parseDouble(s.substring(0, s.indexOf('x')));
+            }
         }
         System.out.println("A: " + a);
     }
 
     static void getB(String s)
     {
-        int b = 0;
+        double b = 0.00;
         for (int i = 0; i < s.lastIndexOf('x'); i++)
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                b = Integer.parseInt(s.substring(i, s.lastIndexOf('x')));
+                b = Double.parseDouble(s.substring(i, s.lastIndexOf('x')));
             }
         }
         System.out.println("B: " + b);
@@ -61,12 +100,12 @@ public class Main {
 
     static void getC(String s)
     {
-        int c = 0;
+        double c = 0;
         for (int i = 0; i < s.length(); i++)
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                c = Integer.parseInt(s.substring(s.lastIndexOf('x')+1));
+                c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
             }
         }
         System.out.println("C: " + c);
