@@ -6,6 +6,7 @@
  *
  *
  * todo:
+ *  in the doFormula() method, set quation to 0 in order to properly solve
  *
  *  //d escape character - take note
  *
@@ -27,7 +28,7 @@ public class Main {
             System.out.println("Please re-run program and enter a valid Quadratic Equation (i.e. 6x^2+4x+2). You entered: " + equation);
             System.exit(0);
         }
-        getVariables(equation);
+        doFormula(getA(equation), getB(equation), getC(equation));
         sc.close();
     }
 
@@ -63,29 +64,40 @@ public class Main {
         return hasSymbols;
     }
 
-    public static void getVariables(String s)
+
+    static void doFormula(double a, double b, double c)
     {
-        getA(s);
-        getB(s);
-        getC(s);
+        // Quadratic Formula: x = (-b +-sqrt(b^2-4ac))/2
+        double x = 0;
+        
+        x = (-b + Math.sqrt((Math.pow(b,2)-(4*a*c))))/2;
+
+        System.out.println(x);
+        
     }
 
-    static void getA(String s)
+    static double getA(String s)
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
         double a = 0;
         for (int i = 0; i < s.length(); i++)
         {
-            if (s.charAt(i) == 'x')
+            if (s.charAt(0)!='x')
             {
+                if (s.charAt(i) == 'x')
+                {
                 a = Double.parseDouble(s.substring(0, s.indexOf('x')));
+                }
+            } else {
+                a = 1;
             }
+            
         }
-        System.out.println("A: " + a);
+        return a;
     }
 
-    static void getB(String s)
+    static double getB(String s)
     {
         double b = 0.00;
         for (int i = 0; i < s.lastIndexOf('x'); i++)
@@ -95,10 +107,10 @@ public class Main {
                 b = Double.parseDouble(s.substring(i, s.lastIndexOf('x')));
             }
         }
-        System.out.println("B: " + b);
+        return b;
     }
 
-    static void getC(String s)
+    static double getC(String s)
     {
         double c = 0;
         for (int i = 0; i < s.length(); i++)
@@ -108,6 +120,6 @@ public class Main {
                 c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
             }
         }
-        System.out.println("C: " + c);
+        return c;
     }
 }
