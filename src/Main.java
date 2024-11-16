@@ -33,7 +33,7 @@ public class Main {
     }
 
     // checks to make sure if the user-inputted string has all of the symbols in needs (i.e. a '^', two 'x' variables, and two '+' or '-')
-    public static boolean checkForSymbols(String s)
+    private static boolean checkForSymbols(String s)
     {
         int symCounter = 0;
         boolean hasSymbols = false;
@@ -65,18 +65,21 @@ public class Main {
     }
 
 
-    static void doFormula(double a, double b, double c)
+    public static void doFormula(double a, double b, double c)
     {
-        // Quadratic Formula: x = (-b +-sqrt(b^2-4ac))/2
-        double x = 0;
+        // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2
+        double posRoot = 0;
+        double negRoot = 0;
         
-        x = (-b + Math.sqrt((Math.pow(b,2)-(4*a*c))))/2;
+        System.out.println(Math.pow(b,2)-4*a*c);
 
-        System.out.println(x);
+        
+
+        System.out.println("Positive Root: "+posRoot+"\nNegative Root: "+negRoot);
         
     }
 
-    static double getA(String s)
+    private static double getA(String s)
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
@@ -97,7 +100,7 @@ public class Main {
         return a;
     }
 
-    static double getB(String s)
+    private static double getB(String s)
     {
         double b = 0.00;
         for (int i = 0; i < s.lastIndexOf('x'); i++)
@@ -110,7 +113,7 @@ public class Main {
         return b;
     }
 
-    static double getC(String s)
+    private static double getC(String s)
     {
         double c = 0;
         for (int i = 0; i < s.length(); i++)
