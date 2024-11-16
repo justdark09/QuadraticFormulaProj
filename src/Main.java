@@ -7,6 +7,7 @@
  *
  * todo:
  *  in the doFormula() method, set quation to 0 in order to properly solve
+ *  this is annoying.. i did the coding part but i cannot do the math part! :0
  *
  *  //d escape character - take note
  *
