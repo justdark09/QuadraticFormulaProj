@@ -26,10 +26,10 @@ public class Main {
 
         if (!checkForSymbols(equation))
         {
-            System.out.println("Please re-run program and enter a valid Quadratic Equation (i.e. 6x^2+4x+2). You entered: " + equation);
+            System.out.println("Please re-run program and enter a valid Quadratic Equation with ALL values, even if it is 0 (i.e. 6x^2+4x+2). You entered: " + equation);
             System.exit(0);
         }
-        doFormula(getA(equation), getB(equation), getC(equation));
+        doFormula(getA(equation), getB(equation), getC(equation), equation);
         sc.close();
     }
 
@@ -66,18 +66,28 @@ public class Main {
     }
 
 
-    public static void doFormula(double a, double b, double c)
+    public static void doFormula(double a, double b, double c, String s)
     {
         // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2
         double posRoot = 0;
         double negRoot = 0;
-        
-        System.out.println(Math.pow(b,2)-4*a*c);
 
+        double numZeroes = Math.pow(b,2)-4*a*c;
         
-
-        System.out.println("Positive Root: "+posRoot+"\nNegative Root: "+negRoot);
-        
+        if (numZeroes < 0)
+        {
+            // zero real roots
+            System.out.println("No Roots in the equation '" + s + "'");
+            System.exit(0);
+        }
+        else if (numZeroes == 0)
+        {
+            // one real root
+        }
+        else if (numZeroes > 0)
+        {
+            // two real roots
+        }        
     }
 
     private static double getA(String s)
