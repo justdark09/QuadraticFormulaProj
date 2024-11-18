@@ -30,6 +30,7 @@ public class Main {
             System.exit(0);
         }
         doFormula(getA(equation), getB(equation), getC(equation), equation);
+        System.out.println("A: "+getA(equation)+"B: "+getB(equation)+"C: "+getC(equation));
         sc.close();
     }
 
@@ -69,24 +70,30 @@ public class Main {
     public static void doFormula(double a, double b, double c, String s)
     {
         // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2
-        double posRoot = 0;
-        double negRoot = 0;
+        double rootOne = 0;
+        double rootTwo = 0;
 
-        double numZeroes = Math.pow(b,2)-4*a*c;
+        double numUnderRadicand = (Math.pow(b,2))-4*a*c;
         
-        if (numZeroes < 0)
+        if (numUnderRadicand < 0)
         {
             // zero real roots
             System.out.println("No Roots in the equation '" + s + "'");
             System.exit(0);
         }
-        else if (numZeroes == 0)
+        else if (numUnderRadicand == 0)
         {
             // one real root
+            rootOne = Math.sqrt(numUnderRadicand);
+
+            System.out.println(rootOne);
         }
-        else if (numZeroes > 0)
+        else if (numUnderRadicand > 0)
         {
             // two real roots
+            rootOne = (-b + Math.sqrt(numUnderRadicand))/2;
+            rootTwo = (-b - Math.sqrt(numUnderRadicand))/2;
+            System.out.println("Your roots are " + rootOne + " and " + rootTwo);
         }        
     }
 
