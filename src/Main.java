@@ -2,12 +2,16 @@
  * This program should take a quadratic equation
  * and solve it using the quadratic formula
  *
- * Quadratic Formula: x = (-b +-sqrt(b^2-4ac))/2
+ * Quadratic Formula: x = (-b +-sqrt(b^2-4ac))/2*a
  *
  *
  * todo:
- *  in the doFormula() method, set quation to 0 in order to properly solve
- *  this is annoying.. i did the coding part but i cannot do the math part! :0
+ *  is there a way to check for the parent function without
+ *  doing the current if-else in the main method?
+ *    - Function overloading?
+ *      - doFormula(double, double) instead of doFormula(double, double, double)
+ *  inputting an equation like "x^2+9" results in a root of "x=0", instead of "No roots in..."
+ *    - See line 40
  *
  *  //d escape character - take note
  *
@@ -24,13 +28,29 @@ public class Main {
         equation = equation.toLowerCase();
 
 
-        if (!checkForSymbols(equation))
+        // if the equation entered is the parent quadratic function, call  the doFormula() method accordingly
+        if (equation.equals("x^2"))
         {
-            System.out.println("Please re-run program and enter a valid Quadratic Equation with ALL values, even if it is 0 (i.e. 6x^2+4x+2). You entered: " + equation);
-            System.exit(0);
+            doFormula(1.0,0.0,0.0,equation);
+            System.out.println("A: 1, B: 0, C: 0");
         }
-        doFormula(getA(equation), getB(equation), getC(equation), equation);
-        System.out.println("A: "+getA(equation)+"B: "+getB(equation)+"C: "+getC(equation));
+        else
+        {
+            if (!checkForSymbols(equation))
+            {
+                // check if the last index is an 'x' or a number
+                doFormula(getA(equation), getB(equation), 0.0, equation);
+            }
+            else
+            {
+                doFormula(getA(equation), getB(equation), getC(equation), equation);
+                System.out.printf("A: %f, B: %f, C: %f\n", getA(equation), getB(equation), getC(equation));
+                System.exit(0);
+            }
+        }
+
+        System.out.println(checkForSymbols(equation));
+
         sc.close();
     }
 
@@ -58,18 +78,18 @@ public class Main {
             }
         }
 
+        // returns true if the equation has the correct number of symbols/variables (i.e. '+' or 'x')
         if (symCounter == 5)
         {
             hasSymbols = true;
         }
-
         return hasSymbols;
     }
 
 
     public static void doFormula(double a, double b, double c, String s)
     {
-        // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2
+        // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2*a
         double rootOne = 0;
         double rootTwo = 0;
 
@@ -78,23 +98,23 @@ public class Main {
         if (numUnderRadicand < 0)
         {
             // zero real roots
-            System.out.println("No Roots in the equation '" + s + "'");
+            System.out.println("No real roots in the equation '" + s + "'");
             System.exit(0);
         }
-        else if (numUnderRadicand == 0)
+        else if (numUnderRadicand == 0 || b == 1)
         {
             // one real root
             rootOne = Math.sqrt(numUnderRadicand);
 
-            System.out.println(rootOne);
+            System.out.println("The root of the equation '" + s + "' is: x = " + rootOne);
         }
         else if (numUnderRadicand > 0)
         {
             // two real roots
-            rootOne = (-b + Math.sqrt(numUnderRadicand))/2;
-            rootTwo = (-b - Math.sqrt(numUnderRadicand))/2;
-            System.out.println("Your roots are " + rootOne + " and " + rootTwo);
-        }        
+            rootOne = (-b + Math.sqrt(numUnderRadicand))/(2*a);
+            rootTwo = (-b - Math.sqrt(numUnderRadicand))/(2*a);
+            System.out.println("The roots in the equation '" + s + "' are: x = " + rootOne + " and: x = " + rootTwo);
+        }
     }
 
     private static double getA(String s)
@@ -113,7 +133,6 @@ public class Main {
             } else {
                 a = 1;
             }
-            
         }
         return a;
     }
@@ -125,7 +144,14 @@ public class Main {
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                b = Double.parseDouble(s.substring(i, s.lastIndexOf('x')));
+                try
+                {
+                    b = Double.parseDouble(s.substring(i, s.lastIndexOf('x')));
+                }
+                catch (NumberFormatException e)
+                {
+                    b = 1;
+                }
             }
         }
         return b;
