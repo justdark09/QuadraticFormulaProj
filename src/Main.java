@@ -13,12 +13,12 @@
  *  inputting an equation like "x^2+9" results in a root of "x=0", instead of "No roots in..."
  *    - See line 40
  *
- *  //d escape character - take note
  *
  */
 import java.util.Scanner;
 
 public class Main {
+    public static int symCounter = 0;
     public static void main(String[] args) {
         System.out.println("Enter a quadratic equation: ");
         Scanner sc = new Scanner(System.in);
@@ -36,32 +36,38 @@ public class Main {
         }
         else
         {
-            if (!checkForSymbols(equation))
+            if (checkForSymbols(equation) == 5)
             {
                 // check if the last index is an 'x' or a number
                 doFormula(getA(equation), getB(equation), 0.0, equation);
             }
-            else
+            else if (checkForSymbols(equation) == 4)
             {
-                doFormula(getA(equation), getB(equation), getC(equation), equation);
-                System.out.printf("A: %f, B: %f, C: %f\n", getA(equation), getB(equation), getC(equation));
+
+                doFormula(getA(equation), getB(equation), 0, equation);
+                System.out.printf("A: %f, B: %f, C: %f\n", getA(equation), getB(equation), 0.0);
                 System.exit(0);
             }
+            else if (checkForSymbols(equation) == 3)
+            {
+                doFormula(getA(equation), 0.0, getC(equation), equation);
+                System.out.printf("A: %f, B: %f, C: %f\n", getA(equation), 0.0, getC(equation));
+            }
+            else
+            {
+                System.out.println("Else on line 57");
+            }
         }
-
-        System.out.println(checkForSymbols(equation));
-
         sc.close();
     }
 
-    // checks to make sure if the user-inputted string has all of the symbols in needs (i.e. a '^', two 'x' variables, and two '+' or '-')
-    private static boolean checkForSymbols(String s)
+    // checks to make sure if the user-inputted string has all the symbols in needs (i.e. a '^', two 'x' variables, and two '+' or '-')
+    private static int checkForSymbols(String s)
     {
-        int symCounter = 0;
-        boolean hasSymbols = false;
-
+        symCounter = 0;
         for (int i = 0; i < s.length(); i++)
         {
+
             if (s.charAt(i) == 'x')
             {
                 symCounter++;
@@ -77,13 +83,7 @@ public class Main {
                 symCounter++;
             }
         }
-
-        // returns true if the equation has the correct number of symbols/variables (i.e. '+' or 'x')
-        if (symCounter == 5)
-        {
-            hasSymbols = true;
-        }
-        return hasSymbols;
+        return symCounter;
     }
 
 
@@ -164,7 +164,14 @@ public class Main {
         {
             if (s.charAt(i) == '+' || s.charAt(i) == '-')
             {
-                c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                if (symCounter == 3)
+                {
+                    c = Double.parseDouble(s.substring(s.indexOf('2')+1));
+                }
+                else
+                {
+                    c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                }
             }
         }
         return c;
