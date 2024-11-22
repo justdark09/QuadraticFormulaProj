@@ -36,10 +36,10 @@ public class Main {
         }
         else
         {
-            if (checkForSymbols(equation) == 5)
+            if (checkForSymbols(equation) == 5 || checkForSymbols(equation) == 6)
             {
                 // check if the last index is an 'x' or a number
-                doFormula(getA(equation), getB(equation), 0.0, equation);
+                doFormula(getA(equation), getB(equation), getC(equation), equation);
             }
             else if (checkForSymbols(equation) == 4)
             {
