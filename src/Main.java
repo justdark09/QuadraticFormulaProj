@@ -18,7 +18,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static int symCounter = 0;
+    private static int symCounter = 0;
     public static void main(String[] args) {
         System.out.println("Enter a quadratic equation: ");
         Scanner sc = new Scanner(System.in);
@@ -40,6 +40,7 @@ public class Main {
             {
                 // check if the last index is an 'x' or a number
                 doFormula(getA(equation), getB(equation), getC(equation), equation);
+                System.out.printf("A: %f, B: %f, C: %f\n", getA(equation), getB(equation), getC(equation));
             }
             else if (checkForSymbols(equation) == 4)
             {
@@ -87,7 +88,7 @@ public class Main {
     }
 
 
-    public static void doFormula(double a, double b, double c, String s)
+    private static void doFormula(double a, double b, double c, String s)
     {
         // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2*a
         double rootOne = 0;
@@ -113,11 +114,21 @@ public class Main {
             // two real roots
             rootOne = (-b + Math.sqrt(numUnderRadicand))/(2*a);
             rootTwo = (-b - Math.sqrt(numUnderRadicand))/(2*a);
+
+            if (Double.toString(rootOne) == "-0.0")
+            {
+                rootOne = 0.0;
+            }
+            if (Double.toString(rootTwo) == "-0.0")
+            {
+                rootTwo = 0.0;
+            }
+
             System.out.println("The roots in the equation '" + s + "' are: x = " + rootOne + " and: x = " + rootTwo);
         }
     }
 
-    private static double getA(String s)
+    public static double getA(String s)
     {
         //sample equation: 6x^2+2x+4
         //                 012345678
@@ -137,7 +148,7 @@ public class Main {
         return a;
     }
 
-    private static double getB(String s)
+    public static double getB(String s)
     {
         double b = 0.00;
         for (int i = 0; i < s.lastIndexOf('x'); i++)
@@ -157,7 +168,7 @@ public class Main {
         return b;
     }
 
-    private static double getC(String s)
+    public static double getC(String s)
     {
         double c = 0;
         for (int i = 0; i < s.length(); i++)
@@ -170,7 +181,14 @@ public class Main {
                 }
                 else
                 {
-                    c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                    if (s.charAt(s.length()-1) == 'x')
+                    {
+                        c = 0.0;
+                    }
+                    else 
+                    {
+                        c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                    }
                 }
             }
         }
