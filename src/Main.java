@@ -6,12 +6,7 @@
  *
  *
  * todo:
- *  is there a way to check for the parent function without
- *  doing the current if-else in the main method?
- *    - Function overloading?
- *      - doFormula(double, double) instead of doFormula(double, double, double)
- *  inputting an equation like "x^2+9" results in a root of "x=0", instead of "No roots in..."
- *    - See line 40
+ *  
  *
  *
  */
@@ -19,6 +14,7 @@ import java.util.Scanner;
 
 public class Main {
     private static int symCounter = 0;
+    private static boolean hasEquality = false;
     public static void main(String[] args) {
         System.out.println("Enter a quadratic equation: ");
         Scanner sc = new Scanner(System.in);
@@ -27,11 +23,15 @@ public class Main {
         String equation = sInitial.replaceAll("\\s", "");
         equation = equation.toLowerCase();
 
+        if (equation.contains("="))
+        {
+            hasEquality = true;
+        }
 
         // if the equation entered is the parent quadratic function, call  the doFormula() method accordingly
         if (equation.equals("x^2"))
         {
-            doFormula(1.0,0.0,0.0,equation);
+            doFormula(1.0, 0.0, 0.0, equation);
             System.out.println("A: 1, B: 0, C: 0");
         }
         else
@@ -87,7 +87,6 @@ public class Main {
         return symCounter;
     }
 
-
     private static void doFormula(double a, double b, double c, String s)
     {
         // Quadratic Formula: x = (-b +- sqrt(b^2-4ac))/2*a
@@ -102,10 +101,10 @@ public class Main {
             System.out.println("No real roots in the equation '" + s + "'");
             System.exit(0);
         }
-        else if (numUnderRadicand == 0 || b == 1)
+        else if (numUnderRadicand == 0)
         {
             // one real root
-            rootOne = Math.sqrt(numUnderRadicand);
+            rootOne = (-b + Math.sqrt(numUnderRadicand))/(2*a);
 
             System.out.println("The root of the equation '" + s + "' is: x = " + rootOne);
         }
@@ -187,7 +186,33 @@ public class Main {
                     }
                     else 
                     {
-                        c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                        if (hasEquality == true)
+                        {
+                            double answer = 0;
+                            if (s.contains("=0"))
+                            {
+                                c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1, s.indexOf('=')));
+                            }
+                            else
+                            {
+                                c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1, s.indexOf('=')));
+
+                                answer = Double.parseDouble(s.substring(s.indexOf("=")+1));
+
+                                if (answer >= 0)
+                                {
+                                    c -= answer;
+                                }
+                                else
+                                {
+                                    c += answer;
+                                }
+                            }
+                        }
+                        else 
+                        {
+                            c = Double.parseDouble(s.substring(s.lastIndexOf('x')+1));
+                        }
                     }
                 }
             }
